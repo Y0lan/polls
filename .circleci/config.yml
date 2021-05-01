@@ -38,5 +38,6 @@ jobs:
               http://localhost:3306
 
       - run:
-        name: Run tests
-        command: mvn test
+        name: Run tests 
+        run: 
+          - mvn run test
