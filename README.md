@@ -14,7 +14,7 @@
 </p>
 
 -----
-# Nifty API
+# Polls API
 Polls is a made up polls API. It provides features like:
 - Create account
 - Create and manage polls
