@@ -1,12 +1,20 @@
-version: 2.1
 
+version: 2.1
 orbs:
-  maven: circleci/maven@0.0.12
-commands:
-  start_mysql_server:
-    description: "Start a docker container that will host the mysql server"
+  docker: circleci/docker@1.5.0
+  maven: circleci/maven@1.2.0
+jobs:
+  build:
+    docker:
+      - image: docker
     steps:
-      - run: docker-compose up -d
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: docker-compose up -d
+          command: |
+            docker-compose up
+            
 workflows:
   maven_test:
     jobs:
