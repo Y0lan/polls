@@ -4,7 +4,7 @@ orbs:
   docker: circleci/docker@1.5.0
   maven: circleci/maven@1.2.0
 jobs:
-  build:
+  start_mysql_server:
     docker:
       - image: docker
     steps:
@@ -18,4 +18,5 @@ jobs:
 workflows:
   maven_test:
     jobs:
+      - start_mysql_server
       - maven/test
