@@ -13,7 +13,7 @@ jobs:
           name: Install docker-compose dependencies
           command: |
             apt update
-            apt install -y curl tar jq
+            apt install -y curl tar jq maven
       - checkout
       - setup_remote_docker
       - docker/install-docker-compose
