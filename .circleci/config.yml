@@ -6,7 +6,7 @@ orbs:
 jobs:
   start_sql_server: 
     docker:       
-      - image: "docker/compose"
+      - image: "alpine"
     steps:       
       - checkout
       - setup_remote_docker
