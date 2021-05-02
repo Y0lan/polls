@@ -8,7 +8,8 @@ jobs:
     docker:       
       - image: "docker/compose"
     steps:       
-      - run: docker-compose up -d         
+      - checkout
+      - run: docker-compose up -d  
 
             
 workflows:
