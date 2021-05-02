@@ -27,9 +27,9 @@ jobs:
           name: Start container and verify it's working
           command: |
             set -x
-            cat config.env
-            docker-compose up &
-            docker ps
+            cat config.env docker-compose.yml
+            docker-compose up -d
+
 
             
 workflows:
