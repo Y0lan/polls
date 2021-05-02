@@ -1,22 +1,21 @@
 
 version: 2.1
 orbs:
-  docker: circleci/docker@1.5.0
+  docker-compose: parrable/docker-compose@1.0.1
   maven: circleci/maven@1.2.0
+
 jobs:
-  start_mysql_server:
-    docker:
-      - image: docker
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: docker-compose up -d
-          command: |
-            docker-compose up
+  start_sql_server: 
+    docker:       
+      - image: "docker/compose"
+    steps:       
+      - run: docker-compose up -d         
+
             
 workflows:
-  maven_test:
-    jobs:
-      - start_mysql_server
-      - maven/test
+    test:
+      jobs:
+        - start_sql_server
+        - maven/test:
+            requires:
+              - start_sql_server
