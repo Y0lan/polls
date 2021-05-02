@@ -8,9 +8,6 @@ jobs:
   start_sql_server: 
     docker:       
       - image: cimg/base
-        environment:
-          MYSQL_USER: root
-          MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
     steps:
       - checkout
       - setup_remote_docker
