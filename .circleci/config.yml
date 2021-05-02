@@ -28,7 +28,9 @@ jobs:
           command: |
             set -x
             cat config.env
-            docker-compose up -d
+            docker-compose up &
+            docker ps
+
             
 workflows:
     test:
