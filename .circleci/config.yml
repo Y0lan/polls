@@ -8,7 +8,12 @@ jobs:
   start_sql_server: 
     docker:       
       - image: "ubuntu"
-    steps:       
+    steps:
+      - run:
+          name: Install docker-compose dependencies
+          command: |
+            apt update
+            apt install -y curl tar
       - checkout
       - setup_remote_docker
       - docker/install-docker-compose
