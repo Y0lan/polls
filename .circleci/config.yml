@@ -1,7 +1,6 @@
 
 version: 2.1
 orbs:
-  docker-compose: parrable/docker-compose@1.0.1
   maven: circleci/maven@1.2.0
 
 jobs:
