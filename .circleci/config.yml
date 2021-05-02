@@ -7,29 +7,20 @@ orbs:
 jobs:
   start_sql_server: 
     docker:       
-      - image: "ubuntu"
+      - image: circleci/mysql
+        environment:
+          MYSQL_USER: root
+          MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
+
     steps:
-      - run:
-          name: Install docker-compose dependencies
-          command: |
-            apt update
-            apt install -y curl tar jq maven
       - checkout
-      - setup_remote_docker
-      - docker/install-docker-compose
-      - docker/install-docker
       - run:
-          name: Setup config.env 
-          command: |
-            mv config.env.example config.env
-            sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
-      - run:
-          name: Start container and verify it's working
+          name: Start MYSQL
           command: |
             set -x
-            cat config.env docker-compose.yml
-            docker-compose up -d
-            mvn test
+            apt install -y mysql-client
+            mysql -u root -p $MYSQL_ROOT_PASSWORD < ./sql/scripts/init.sql
+  
 
 
             
@@ -37,3 +28,4 @@ workflows:
     test:
       jobs:
         - start_sql_server
+        
