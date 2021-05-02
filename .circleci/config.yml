@@ -17,6 +17,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - docker/install-docker-compose
+      - docker/install-docker
       - run:
           name: Setup config.env 
           command: |
