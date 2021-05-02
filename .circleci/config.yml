@@ -18,6 +18,11 @@ jobs:
       - setup_remote_docker
       - docker/install-docker-compose
       - run:
+          name: Setup config.env 
+          command: |
+            mv config.env.example config.env
+            sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
+      - run:
           name: Start container and verify it's working
           command: |
             set -x
