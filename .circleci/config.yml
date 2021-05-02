@@ -9,6 +9,8 @@ jobs:
       - image: "docker/compose"
     steps:       
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
       - run: docker-compose up -d  
 
             
