@@ -27,6 +27,8 @@ Polls is a made up polls API. It provides features like:
    
     `docker-compose up -d`
 2. Launch the back end
+   - fill application.properties.example in polls/resources
+   - fill information config.env.example
    
    `mvn spring-boot:run`
 3. Launch the front end

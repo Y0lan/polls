@@ -1,4 +1,4 @@
-package fr.esgi.polls.model;
+package fr.esgi.polls.model.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;

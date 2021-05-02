@@ -1,5 +1,6 @@
 package fr.esgi.polls.model;
 
+import fr.esgi.polls.model.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
