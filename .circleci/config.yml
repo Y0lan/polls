@@ -15,6 +15,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: false
+      - docker/install-docker-compose
       - run:
           name: Start container and verify it is working
           command: |
