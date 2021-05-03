@@ -20,7 +20,7 @@ jobs:
           command: |
             set -x
             apt update
-            apt-get install -y curl tar
+            apt-get install -y curl tar jq
       - docker/install-docker
       - docker/install-docker-compose
       - run:
