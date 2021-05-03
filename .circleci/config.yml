@@ -30,10 +30,13 @@ jobs:
 
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
+            ls -l
 
             mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties
             sed -i "s/<mysql_password>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
             sed -i "s/<jwt-secret>/$JWT_SECRET/g" ./src/main/resources/application.properties
+
+            cat /src/main/resources/application.properties
 
             mkdir -p ./sql/database
             docker-compose up -d && 
