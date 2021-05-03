@@ -20,7 +20,7 @@ jobs:
           command: |
             set -x
             apt update
-            apt-get install -y curl tar jq
+            apt-get install -y curl tar jq maven
       - docker/install-docker
       - docker/install-docker-compose
       - run:
@@ -42,6 +42,9 @@ jobs:
             docker-compose up -d && 
             docker run --network container:polls-mysql \
             appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused http://127.0.0.1:3306
+            mvn test
+
+
 
 
 
@@ -51,7 +54,4 @@ workflows:
     test:
       jobs:
         - start_sql_server
-        - maven/test:
-            requires:
-              - start_sql_server
         
