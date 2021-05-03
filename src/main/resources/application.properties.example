@@ -1,5 +1,5 @@
 ## Propriété du serveur
-server.port= 5000
+server.port= 8080
 
 ## Database
 
