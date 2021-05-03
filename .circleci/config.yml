@@ -15,12 +15,16 @@ jobs:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: false
+      - run:
+          name: Install essential tools
+          command: |
+            set -x
+            apt-get install -y curl tar
       - docker/install-docker-compose
       - run:
           name: Start container and verify it is working
           command: |
             set -x
-            apt-get install -y curl tar
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             cat config.env
