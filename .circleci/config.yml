@@ -7,7 +7,7 @@ orbs:
 jobs:
   start_sql_server: 
     docker:       
-      - image: circleci/docker-coreos-toolbox-ubuntu
+      - image: ubuntu
         environment:
           MYSQL_USER: root
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
@@ -20,6 +20,7 @@ jobs:
           name: Start container and verify it is working
           command: |
             set -x
+            apt-get install -y curl tar
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             cat config.env
