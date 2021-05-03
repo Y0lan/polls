@@ -7,7 +7,7 @@ orbs:
 jobs:
   start_sql_server: 
     docker:       
-      - image: circleci/mysql
+      - image: ubuntu
         environment:
           MYSQL_USER: root
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
@@ -16,15 +16,23 @@ jobs:
       - setup_remote_docker:
           docker_layer_caching: false
       - run:
+          name: Install essential tools
+          command: |
+            set -x
+            apt update
+            apt-get install -y curl tar jq
+      - docker/install-docker
+      - docker/install-docker-compose
+      - run:
           name: Start container and verify it is working
           command: |
             set -x
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             cat config.env
-            docker-compose up -d
+            docker-compose up -d && 
             docker run --network container:polls-mysql \
-            appropriate/curl --retry 10 --retry-delay 1 --retry-connrefused http://localhost:3306
+            appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused http://127.0.0.1:3306
 
 
 
@@ -34,5 +42,7 @@ workflows:
     test:
       jobs:
         - start_sql_server
-        - maven/test
+        - maven/test:
+            requires:
+              - start_sql_server
         
