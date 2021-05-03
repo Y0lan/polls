@@ -23,11 +23,14 @@ Polls is a made up polls API. It provides features like:
 
 # Documentation
 ## Start the app
+**COPY config.env.example into config.env**
+
+**COPY application.properties.example into application.properties**
+
 0. fill application.properties.example in polls/resources and 
      - jwtsecret
      - mysql user and password
    - fill information config.env.example
-   - remove the example in the names !
 1. Launch the database
     `docker-compose up -d`
 2. Launch the back end
