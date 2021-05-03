@@ -13,8 +13,6 @@ jobs:
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
       - run:
           name: Install essential tools
           command: |
@@ -27,7 +25,6 @@ jobs:
           name: Start container and verify it is working
           command: |
             set -x
-
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             ls -l
