@@ -30,6 +30,9 @@ jobs:
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             cat config.env
+            mkdir -p ./sql/database
+            ls -l ./sql/
+            ls -l ./sql/scripts/
             docker-compose up -d && 
             docker run --network container:polls-mysql \
             appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused http://127.0.0.1:3306
