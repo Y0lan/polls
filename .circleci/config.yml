@@ -21,6 +21,7 @@ jobs:
             set -x
             apt update
             apt-get install -y curl tar
+      - docker/install-docker
       - docker/install-docker-compose
       - run:
           name: Start container and verify it is working
