@@ -19,6 +19,7 @@ jobs:
           name: Install essential tools
           command: |
             set -x
+            apt update
             apt-get install -y curl tar
       - docker/install-docker-compose
       - run:
