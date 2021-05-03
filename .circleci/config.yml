@@ -7,7 +7,7 @@ orbs:
 jobs:
   start_sql_server: 
     docker:       
-      - image: circleci/mysql
+      - image: circleci/docker-coreos-toolbox-ubuntu
         environment:
           MYSQL_USER: root
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
