@@ -20,7 +20,7 @@ jobs:
           command: |
             set -x
             apt update
-            apt-get install -y curl tar jq maven
+            DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven
       - docker/install-docker
       - docker/install-docker-compose
       - run:
