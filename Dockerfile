@@ -11,4 +11,4 @@ COPY target/polls-0.0.1-SNAPSHOT.jar $PROJECT_HOME/polls-0.0.1-SNAPSHOT.jar
 
 WORKDIR $PROJECT_HOME
 
-CMD ["java" ,"-jar","./spring-boot-mongo.jar"]
+CMD ["java" ,"-jar","./polls-0.0.1-SNAPSHOT.jar"]

@@ -1,6 +1,7 @@
 version: '3.7'
 services:
   app:
+    hostname: app
     container_name: polls-app
     build: .
     ports:
@@ -8,14 +9,10 @@ services:
     restart: always
     depends_on:
       - db
-    env_file:
-      - app.env
     links:
       - db
-    networks:
-      common:
-        ipv4_address: 172.22.0.100
   db:
+    hostname: db
     container_name: polls-mysql
     image: mysql:8
     ports:
@@ -26,14 +23,3 @@ services:
     restart: always
     env_file:
       - db.env
-    networks:
-      common:
-        ipv4_address: 172.22.0.200
-
-
-networks:
-  common:
-    ipam:
-      config:
-        - subnet: 172.22.0.0/16
-    driver: bridge
