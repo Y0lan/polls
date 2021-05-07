@@ -49,5 +49,4 @@ atlassian-ide-plugin.xml
 /sql/database/
 /HELP.md
 /.mvn/
-/config.env
-/db.env
+.db.env

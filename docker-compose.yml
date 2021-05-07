@@ -1,6 +1,18 @@
 version: '3.7'
 services:
+  app:
+    hostname: app
+    container_name: polls-app
+    build: .
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - db
+    links:
+      - db
   db:
+    hostname: db
     container_name: polls-mysql
     image: mysql:8
     ports:
@@ -10,5 +22,4 @@ services:
       - ./sql/database:/var/lib/mysql
     restart: always
     env_file:
-      - config.env
-
+      - db.env
