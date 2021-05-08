@@ -20,22 +20,32 @@ jobs:
           command: |
             set -x
             apt update
-            apt-get install -y curl tar jq
+            DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven
       - docker/install-docker
       - docker/install-docker-compose
       - run:
           name: Start container and verify it is working
           command: |
             set -x
+            cat /etc/mysql/mysql.conf.d/mysqld.cnf
+            exit
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
-            cat config.env
+            ls -l
+
+            mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties
+            sed -i "s/<mysql_password>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
+            sed -i "s/<jwt-secret>/$JWT_SECRET/g" ./src/main/resources/application.properties
+
+            cat ./src/main/resources/application.properties
+
             mkdir -p ./sql/database
-            ls -l ./sql/
-            ls -l ./sql/scripts/
             docker-compose up -d && 
             docker run --network container:polls-mysql \
             appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused http://127.0.0.1:3306
+            mvn test
+
+
 
 
 
@@ -45,7 +55,4 @@ workflows:
     test:
       jobs:
         - start_sql_server
-        - maven/test:
-            requires:
-              - start_sql_server
         
