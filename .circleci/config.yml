@@ -27,8 +27,6 @@ jobs:
           name: Start container and verify it is working
           command: |
             set -x
-            cat /etc/mysql/mysql.conf.d/mysqld.cnf
-            exit
             mv config.env.example config.env
             sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
             ls -l
