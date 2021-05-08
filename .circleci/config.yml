@@ -42,6 +42,7 @@ jobs:
             cat /etc/hosts
 
             mkdir -p ./sql/database
+            mvn clean package -DskipTests
             docker-compose up -d
             mvn test
 
