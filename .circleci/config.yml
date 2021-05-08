@@ -48,6 +48,8 @@ jobs:
 
             docker-compose up -d
 
+            docker ps
+
             wget db:3306
             cat index.html
             mvn test
