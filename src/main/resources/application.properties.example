@@ -4,6 +4,7 @@ app.jwtSecret= <JWT_SECRET>
 
 
 
+
 ## Propriété du serveur
 server.port= 8080
 
