@@ -24,12 +24,16 @@ Polls is a made up polls API. It provides features like:
 # Documentation
 ## Start the app
 ### Edit the configuration files
+
 `mv db.env.example db.env`
 
 **Edit db.env to add the root of mysql password**
 
 
 `mv src/main/resources/application.properties.example src/main/resources/application.properties`
+
+**Edit application.properties to add the root of mysql password and the jwt secret**
+
 
 ### Build the app 
 
