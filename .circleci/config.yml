@@ -27,20 +27,19 @@ jobs:
           name: Start container and verify it is working
           command: |
             set -x
-            mv config.env.example config.env
-            sed -i "s/<PASSWORD>/$MYSQL_ROOT_PASSWORD/g" config.env
+            mv db.env.example db.env
+            sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" db.env
             ls -l
 
             mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties
-            sed -i "s/<mysql_password>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
-            sed -i "s/<jwt-secret>/$JWT_SECRET/g" ./src/main/resources/application.properties
+            sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
+            sed -i "s/<JWT_SECRET>/$JWT_SECRET/g" ./src/main/resources/application.properties
 
             cat ./src/main/resources/application.properties
 
             mkdir -p ./sql/database
-            docker-compose up -d && 
-            docker run --network container:polls-mysql \
-            appropriate/curl --retry 10 --retry-delay 10 --retry-connrefused http://127.0.0.1:3306
+            docker-compose up -d
+
             mvn test
 
 
