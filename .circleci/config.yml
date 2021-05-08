@@ -20,7 +20,7 @@ jobs:
           command: |
             set -x
             apt update
-            DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven
+            DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven wget
       - docker/install-docker
       - docker/install-docker-compose
       - run:
@@ -40,6 +40,9 @@ jobs:
 
             echo "127.0.0.1 db" >> /etc/hosts
             cat /etc/hosts
+
+            wget db:3306
+            cat index.html
 
             mkdir -p ./sql/database
             mvn clean package -DskipTests
