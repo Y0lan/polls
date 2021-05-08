@@ -41,6 +41,9 @@ jobs:
             echo "127.0.0.1 db" >> /etc/hosts
             cat /etc/hosts
 
+            cat ./sql/scripts/init.sql
+            docker ps
+
             wget db:3306
             cat index.html
 
