@@ -36,11 +36,12 @@ jobs:
             sed -i "s/<JWT_SECRET>/$JWT_SECRET/g" ./src/main/resources/application.properties
 
             cat ./src/main/resources/application.properties
+            cat ./db.env
 
             mkdir -p ./sql/database
             mvn clean package -DskipTests
             docker-compose up -d
-
+            echo "127.0.0.1	db" >> /etc/hosts
             mvn test
 
 
