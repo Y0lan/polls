@@ -38,9 +38,11 @@ jobs:
             cat ./src/main/resources/application.properties
             cat ./db.env
 
+            echo "127.0.0.1 db" >> /etc/hosts
+            cat /etc/hosts
+
             mkdir -p ./sql/database
             docker-compose up -d
-            echo "127.0.0.1	db" >> /etc/hosts
             mvn test
 
 
