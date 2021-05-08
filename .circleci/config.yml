@@ -42,14 +42,14 @@ jobs:
             cat /etc/hosts
 
             cat ./sql/scripts/init.sql
-            docker ps
+            mkdir -p ./sql/database
+
+            mvn clean package -DskipTests
+
+            docker-compose up -d
 
             wget db:3306
             cat index.html
-
-            mkdir -p ./sql/database
-            mvn clean package -DskipTests
-            docker-compose up -d
             mvn test
 
 
