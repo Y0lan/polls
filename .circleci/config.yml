@@ -48,6 +48,8 @@ jobs:
 
             docker-compose up -d
 
+            sleep 15
+
             docker ps
 
             wget db:3306
