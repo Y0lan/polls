@@ -38,6 +38,7 @@ jobs:
             cat ./src/main/resources/application.properties
 
             mkdir -p ./sql/database
+            mvn clean package -DskipTests
             docker-compose up -d
 
             mvn test
