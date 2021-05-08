@@ -23,20 +23,21 @@ Polls is a made up polls API. It provides features like:
 
 # Documentation
 ## Start the app
-**COPY config.env.example into config.env**
+### Edit the configuration files
+`mv db.env.example db.env`
 
-**COPY application.properties.example into application.properties**
+**Edit db.env to add the root of mysql password**
 
-0. fill application.properties.example in polls/resources and 
-     - jwtsecret
-     - mysql user and password
-   - fill information config.env.example
-1. Launch the database
-    `docker-compose up -d`
-2. Launch the back end
-   `mvn spring-boot:run`
+
+`mv src/main/resources/application.properties.example src/main/resources/application.properties`
+
+### Build the app 
+
+`mvn clean package -DskipTests`
+
+### Start the app
+ `docker-compose up -d`
    
-then execute mysql script: `sql/scripts/init.sql`
 3. Launch the front end
    
    `// TODO`
@@ -45,11 +46,6 @@ then execute mysql script: `sql/scripts/init.sql`
 The mysql server is inside a docker. 📦
 
 The data of the database is persistant inside the sql/database folder. :rocket: 
-
-You can put SQL script inside sql/scripts and they will be executed when the docker start up. :smile:
-
-
-
 
 
 # Example Use

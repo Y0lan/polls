@@ -50,3 +50,4 @@ atlassian-ide-plugin.xml
 /HELP.md
 /.mvn/
 .db.env
+/db.env
