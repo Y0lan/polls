@@ -51,8 +51,6 @@ jobs: # début des actions
             sleep 15
             IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql | tr -d \')
 
-            IP = %$IP db : " = %
-
             echo "$IP db" >> /etc/hosts
             cat /etc/hosts
 
