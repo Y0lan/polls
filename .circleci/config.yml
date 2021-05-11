@@ -32,7 +32,8 @@ jobs: # début des actions
             sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" db.env
             ls -l
 
-            mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
+            mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties
+            sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
             sed -i "s/<JWT_SECRET>/$JWT_SECRET/g" ./src/main/resources/application.properties
 
             cat ./src/main/resources/application.properties
