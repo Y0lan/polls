@@ -48,7 +48,7 @@ jobs: # début des actions
             docker-compose up -d
 
             sleep 15
-            IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql)
+            IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql | tr -d \')
 
             echo "$IP db" >> /etc/hosts
             cat /etc/hosts
