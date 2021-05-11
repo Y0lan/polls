@@ -1,29 +1,30 @@
+version: 2.1 # version de circleci à utiliser
+orbs: # library
+  maven: circleci/maven@1.2.0 # pouvoir mettre maven à disposition sur le cloud
+  docker: circleci/docker@1.5.0 # pouvoir mettre maven à disposition sur le cloud
 
-version: 2.1
-orbs:
-  maven: circleci/maven@1.2.0
-  docker: circleci/docker@1.5.0
 
-jobs:
-  start_sql_server: 
-    docker:       
-      - image: ubuntu
-        environment:
+jobs: # début des actions
+  start_sql_server:  # action principales qui va lancer des sous action
+    docker: # quelle vm seront utilisé pour lancer nos tests ?
+      - image: ubuntu # la vm ubuntu
+        environment: # dans laquelle on aura en variable d'environnement
           MYSQL_USER: root
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: false
-      - run:
+    steps: # étapes des actions à effectuer sur la vm ubuntu
+      - checkout # git clone du projet
+      - setup_remote_docker: # préparation de docker - PEUT ÊTRE À SUPPRIMER POUR VOIR ? POURQUOI ? :
+                               # setup REMOTE docker lance peut être les dockers dans des endroits innaccessible à notre vm ?
+          docker_layer_caching: false # SUPPRIMER ?
+      - run: # liste des actions à executer
           name: Install essential tools
-          command: |
+          command: | # lance les commandes suivantes pour 1) afficher en mode débug 2) charger les packets disponible à l'installation 3) install tar jq maven et wget
             set -x
             apt update
             DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven wget
-      - docker/install-docker
-      - docker/install-docker-compose
-      - run:
+      - docker/install-docker # install docker
+      - docker/install-docker-compose # et docker-compose
+      - run: # lance les actions suivantes
           name: Start container and verify it is working
           command: |
             set -x
@@ -31,8 +32,7 @@ jobs:
             sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" db.env
             ls -l
 
-            mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties
-            sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
+            mv ./src/main/resources/application.properties.example ./src/main/resources/application.properties sed -i "s/<MYSQL_PASSWORD>/$MYSQL_ROOT_PASSWORD/g" ./src/main/resources/application.properties
             sed -i "s/<JWT_SECRET>/$JWT_SECRET/g" ./src/main/resources/application.properties
 
             cat ./src/main/resources/application.properties
