@@ -16,7 +16,7 @@ jobs: # début des actions
       #- setup_remote_docker: # préparation de docker - PEUT ÊTRE À SUPPRIMER POUR VOIR ? POURQUOI ? :
                                # setup REMOTE docker lance peut être les dockers dans des endroits innaccessible à notre vm ?
 
-    docker_layer_caching: false #SUPPRIMER ?
+    #docker_layer_caching: false #SUPPRIMER ?
       - run: # liste des actions à executer
           name: Install essential tools
           command: | # lance les commandes suivantes pour 1) afficher en mode débug 2) charger les packets disponible à l'installation 3) install tar jq maven et wget
