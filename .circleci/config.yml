@@ -17,6 +17,7 @@ jobs: # début des actions
                                # setup REMOTE docker lance peut être les dockers dans des endroits innaccessible à notre vm ?
           docker_layer_caching: false
 
+
       - run: # liste des actions à executer
           name: Install essential tools
           command: | # lance les commandes suivantes pour 1) afficher en mode débug 2) charger les packets disponible à l'installation 3) install tar jq maven et wget
@@ -49,6 +50,8 @@ jobs: # début des actions
 
             sleep 15
             IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql | tr -d \')
+
+            IP = %$IP db : " = %
 
             echo "$IP db" >> /etc/hosts
             cat /etc/hosts
