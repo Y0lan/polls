@@ -13,8 +13,9 @@ jobs: # début des actions
           MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
     steps: #étapes des actions à effectuer sur la vm ubuntu
       - checkout # git clone du projet
-      #- setup_remote_docker: # préparation de docker - PEUT ÊTRE À SUPPRIMER POUR VOIR ? POURQUOI ? :
+      - setup_remote_docker: # préparation de docker - PEUT ÊTRE À SUPPRIMER POUR VOIR ? POURQUOI ? :
                                # setup REMOTE docker lance peut être les dockers dans des endroits innaccessible à notre vm ?
+          docker_layer_caching: false
 
       - run: # liste des actions à executer
           name: Install essential tools
