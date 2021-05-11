@@ -39,10 +39,6 @@ jobs: # début des actions
 
             cat ./src/main/resources/application.properties
             cat ./db.env
-            IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' polls-mysql)
-
-            echo "$IP db" >> /etc/hosts
-            cat /etc/hosts
 
             cat ./sql/scripts/init.sql
             mkdir -p ./sql/database
@@ -52,6 +48,10 @@ jobs: # début des actions
             docker-compose up -d
 
             sleep 15
+            IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql)
+
+            echo "$IP db" >> /etc/hosts
+            cat /etc/hosts
 
             docker ps
 
@@ -64,7 +64,7 @@ jobs: # début des actions
 
 
 
-            
+
 workflows:
     test:
       jobs:
