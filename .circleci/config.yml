@@ -6,18 +6,9 @@ orbs: # library
 
 jobs: # début des actions
   start_sql_server:  # action principales qui va lancer des sous action
-    docker: # quelle vm seront utilisé pour lancer nos tests ?
-      - image: ubuntu # la vm ubuntu
-        environment: # dans laquelle on aura en variable d'environnement
-          MYSQL_USER: root
-          MYSQL_PASSWORD: $MYSQL_ROOT_PASSWORD
+    machine: true
     steps: #étapes des actions à effectuer sur la vm ubuntu
       - checkout # git clone du projet
-      - setup_remote_docker: # préparation de docker - PEUT ÊTRE À SUPPRIMER POUR VOIR ? POURQUOI ? :
-                               # setup REMOTE docker lance peut être les dockers dans des endroits innaccessible à notre vm ?
-          docker_layer_caching: false
-
-
       - run: # liste des actions à executer
           name: Install essential tools
           command: | # lance les commandes suivantes pour 1) afficher en mode débug 2) charger les packets disponible à l'installation 3) install tar jq maven et wget
@@ -45,19 +36,13 @@ jobs: # début des actions
             mkdir -p ./sql/database
 
             mvn clean package -DskipTests
-
             docker-compose up -d
-
             sleep 15
-            IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql | tr -d \')
 
+            IP=$(docker inspect -f \'{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}\' polls-mysql | tr -d \')
             echo "$IP db" >> /etc/hosts
             cat /etc/hosts
 
-            docker ps
-
-            wget db:3306
-            cat index.html
             mvn test
 
 
