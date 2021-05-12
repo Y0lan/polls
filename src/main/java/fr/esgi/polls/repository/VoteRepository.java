@@ -11,6 +11,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/*
+custom query with @Query annotation. I’ve used custom queries because -
+
+    Many of the queries cannot be constructed by Spring-Data-Jpa’s dynamic query methods.
+    Even if they can be constructed, they don’t generate an optimized query.
+
+ */
 @Repository
 public interface VoteRepository extends JpaRepository<Vote, Long> {
     @Query("SELECT NEW fr.esgi.polls.model.ChoiceVoteCount(v.choice.id, count(v.id)) FROM Vote v WHERE v.poll.id in :pollIds GROUP BY v.choice.id")

@@ -33,12 +33,6 @@ jobs: # début des actions
             sleep 15
             mvn test
 
-
-
-
-
-
-
 workflows:
     test:
       jobs:
