@@ -9,12 +9,6 @@ jobs: # début des actions
     machine: true
     steps: #étapes des actions à effectuer sur la vm ubuntu
       - checkout # git clone du projet
-      - run: # liste des actions à executer
-          name: Install essential tools
-          command: | # lance les commandes suivantes pour 1) afficher en mode débug 2) charger les packets disponible à l'installation 3) install tar jq maven et wget
-            set -x
-            apt update
-            DEBIAN_FRONTEND=noninteractive apt-get install -y curl tar jq maven wget
       - docker/install-docker # install docker
       - docker/install-docker-compose # et docker-compose
       - run: # lance les actions suivantes
