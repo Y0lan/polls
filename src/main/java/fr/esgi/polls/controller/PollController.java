@@ -1,12 +1,11 @@
 package fr.esgi.polls.controller;
 
 import fr.esgi.polls.PollResponse;
-import fr.esgi.polls.exception.ResourceNotFoundException;
-import fr.esgi.polls.model.User;
+import fr.esgi.polls.model.Poll;
+import fr.esgi.polls.payload.ApiResponse;
 import fr.esgi.polls.payload.PagedResponse;
-import fr.esgi.polls.payload.UserIdentityAvailability;
-import fr.esgi.polls.payload.UserProfile;
-import fr.esgi.polls.payload.UserSummary;
+import fr.esgi.polls.payload.PollRequest;
+import fr.esgi.polls.payload.VoteRequest;
 import fr.esgi.polls.repository.PollRepository;
 import fr.esgi.polls.repository.UserRepository;
 import fr.esgi.polls.repository.VoteRepository;
@@ -17,12 +16,18 @@ import fr.esgi.polls.util.AppConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/api/polls")
 public class PollController {
+
     @Autowired
     private PollRepository pollRepository;
 
@@ -35,54 +40,39 @@ public class PollController {
     @Autowired
     private PollService pollService;
 
-    private static final Logger logger = LoggerFactory.getLogger(PollService.class);
-    @GetMapping("/user/me")
+    private static final Logger logger = LoggerFactory.getLogger(PollController.class);
+
+    @GetMapping
+    public PagedResponse<PollResponse> getPolls(@CurrentUser UserPrincipal currentUser,
+                                                @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+                                                @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return pollService.getAllPolls(currentUser, page, size);
+    }
+
+    @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
-        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
-        return userSummary;
+    public ResponseEntity<?> createPoll(@Valid @RequestBody PollRequest pollRequest) {
+        Poll poll = pollService.createPoll(pollRequest);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{pollId}")
+                .buildAndExpand(poll.getId()).toUri();
+
+        return ResponseEntity.created(location)
+                .body(new ApiResponse(true, "Poll Created Successfully"));
     }
 
-    @GetMapping("/user/checkUsernameAvailability")
-    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
-        Boolean isAvailable = !userRepository.existsByUsername(username);
-        return new UserIdentityAvailability(isAvailable);
+    @GetMapping("/{pollId}")
+    public PollResponse getPollById(@CurrentUser UserPrincipal currentUser,
+                                    @PathVariable Long pollId) {
+        return pollService.getPollById(pollId, currentUser);
     }
 
-    @GetMapping("/user/checkEmailAvailability")
-    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email) {
-        Boolean isAvailable = !userRepository.existsByEmail(email);
-        return new UserIdentityAvailability(isAvailable);
+    @PostMapping("/{pollId}/votes")
+    @PreAuthorize("hasRole('USER')")
+    public PollResponse castVote(@CurrentUser UserPrincipal currentUser,
+                                 @PathVariable Long pollId,
+                                 @Valid @RequestBody VoteRequest voteRequest) {
+        return pollService.castVoteAndGetUpdatedPoll(pollId, voteRequest, currentUser);
     }
-
-    @GetMapping("/users/{username}")
-    public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
-
-        long pollCount = pollRepository.countByCreatedBy(user.getId());
-        long voteCount = voteRepository.countByUserId(user.getId());
-
-        UserProfile userProfile = new UserProfile(user.getId(), user.getUsername(), user.getName(), user.getCreatedAt(), pollCount, voteCount);
-
-        return userProfile;
-    }
-
-    @GetMapping("/users/{username}/polls")
-    public PagedResponse<PollResponse> getPollsCreatedBy(@PathVariable(value = "username") String username,
-                                                         @CurrentUser UserPrincipal currentUser,
-                                                         @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-                                                         @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-        return pollService.getPollsCreatedBy(username, currentUser, page, size);
-    }
-
-
-    @GetMapping("/users/{username}/votes")
-    public PagedResponse<PollResponse> getPollsVotedBy(@PathVariable(value = "username") String username,
-                                                       @CurrentUser UserPrincipal currentUser,
-                                                       @RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-                                                       @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-        return pollService.getPollsVotedBy(username, currentUser, page, size);
-    }
-
 }
