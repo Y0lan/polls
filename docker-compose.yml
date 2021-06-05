@@ -12,6 +12,7 @@ services:
     links:
       - db
   db:
+    hostname: db
     container_name: polls-mysql
     image: mysql:8
     ports:
