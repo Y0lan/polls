@@ -55,9 +55,9 @@ public class PollControllerTest {
     @Test
     public void testCastVote() throws Exception {
         PollResponse pollResponse = new PollResponse();
-        pollResponse.setCreatedBy(new UserSummary(123L, "janedoe", "Name"));
+        pollResponse.setCreatedBy(new UserSummary(123L, "rayanntoto", "Rayann"));
         pollResponse.setExpirationDateTime(null);
-        pollResponse.setQuestion("Question");
+        pollResponse.setQuestion("Une question");
         pollResponse.setTotalVotes(1L);
         pollResponse.setExpired(true);
         pollResponse.setId(123L);
@@ -73,8 +73,8 @@ public class PollControllerTest {
         MockHttpServletRequestBuilder postResult = MockMvcRequestBuilders.post("/api/polls/{pollId}/votes", 123L);
         MockHttpServletRequestBuilder requestBuilder = postResult
                 .param("currentUser",
-                        String.valueOf(new UserPrincipal(123L, "fr.esgi.polls.security.UserPrincipal", "janedoe",
-                                "jane.doe@example.org", "iloveyou", new ArrayList<GrantedAuthority>())))
+                        String.valueOf(new UserPrincipal(123L, "Rayann", "rayanntoto",
+                                "rayann@rayann.fr", "testtoto", new ArrayList<GrantedAuthority>())))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         MockMvcBuilders.standaloneSetup(this.pollController)
@@ -84,15 +84,15 @@ public class PollControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"id\":123,\"question\":\"Question\",\"choices\":[],\"createdBy\":{\"id\":123,\"username\":\"janedoe\",\"name\":"
-                                        + "\"Name\"},\"creationDateTime\":null,\"expirationDateTime\":null,\"selectedChoice\":1,\"totalVotes\":1,\"expired"
+                                "{\"id\":123,\"question\":\"Une question\",\"choices\":[],\"createdBy\":{\"id\":123,\"username\":\"rayanntoto\",\"name\":"
+                                        + "\"Rayann\"},\"creationDateTime\":null,\"expirationDateTime\":null,\"selectedChoice\":1,\"totalVotes\":1,\"expired"
                                         + "\":true}"));
     }
 
     @Test
     public void testGetPollById() throws Exception {
         PollResponse pollResponse = new PollResponse();
-        pollResponse.setCreatedBy(new UserSummary(123L, "janedoe", "Name"));
+        pollResponse.setCreatedBy(new UserSummary(123L, "rayanntoto", "Rayann"));
         pollResponse.setExpirationDateTime(null);
         pollResponse.setQuestion("Question");
         pollResponse.setTotalVotes(1L);
@@ -104,8 +104,8 @@ public class PollControllerTest {
         when(this.pollService.getPollById((Long) any(), (UserPrincipal) any())).thenReturn(pollResponse);
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/polls/{pollId}", 123L);
         MockHttpServletRequestBuilder requestBuilder = getResult.param("currentUser",
-                String.valueOf(new UserPrincipal(123L, "fr.esgi.polls.security.UserPrincipal", "janedoe",
-                        "jane.doe@example.org", "iloveyou", new ArrayList<GrantedAuthority>())));
+                String.valueOf(new UserPrincipal(123L, "Rayann", "rayanntoto",
+                        "rayann@rayann.fr", "testtoto", new ArrayList<GrantedAuthority>())));
         MockMvcBuilders.standaloneSetup(this.pollController)
                 .build()
                 .perform(requestBuilder)
@@ -113,8 +113,8 @@ public class PollControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content()
                         .string(
-                                "{\"id\":123,\"question\":\"Question\",\"choices\":[],\"createdBy\":{\"id\":123,\"username\":\"janedoe\",\"name\":"
-                                        + "\"Name\"},\"creationDateTime\":null,\"expirationDateTime\":null,\"selectedChoice\":1,\"totalVotes\":1,\"expired"
+                                "{\"id\":123,\"question\":\"Question\",\"choices\":[],\"createdBy\":{\"id\":123,\"username\":\"rayanntoto\",\"name\":"
+                                        + "\"Rayann\"},\"creationDateTime\":null,\"expirationDateTime\":null,\"selectedChoice\":1,\"totalVotes\":1,\"expired"
                                         + "\":true}"));
     }
 
@@ -150,8 +150,8 @@ public class PollControllerTest {
                 .thenReturn(new PagedResponse<PollResponse>());
         MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/api/polls");
         MockHttpServletRequestBuilder paramResult = getResult.param("currentUser",
-                String.valueOf(new UserPrincipal(123L, "fr.esgi.polls.security.UserPrincipal", "janedoe",
-                        "jane.doe@example.org", "iloveyou", new ArrayList<GrantedAuthority>())));
+                String.valueOf(new UserPrincipal(123L, "Rayann", "rayanntoto",
+                        "rayann@rayann.fr", "testtoto", new ArrayList<GrantedAuthority>())));
         MockHttpServletRequestBuilder paramResult1 = paramResult.param("page", String.valueOf(1));
         MockHttpServletRequestBuilder requestBuilder = paramResult1.param("size", String.valueOf(1));
         MockMvcBuilders.standaloneSetup(this.pollController)
