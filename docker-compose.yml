@@ -23,3 +23,14 @@ services:
     restart: always
     env_file:
       - db.env
+  front:
+    hostname: front
+    container_name: polls-front
+    build: front
+    ports:
+      - 80:80
+    restart: always
+    depends_on:
+      - app
+
+
